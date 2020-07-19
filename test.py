@@ -8,6 +8,7 @@ from pyqtgraph.Qt import QtCore, QtGui
 import numpy as np
 from panda_db import PandaDB
 import sys
+import time
 
 win = pg.GraphicsLayoutWidget(show=True)
 win.setWindowTitle('pyqtgraph example: Scrolling Plots')
@@ -19,19 +20,21 @@ p3 = win.addPlot()
 # Use automatic downsampling and clipping to reduce the drawing load
 p3.setDownsampling(mode='peak')
 p3.setClipToView(True)
-p3.setRange(xRange=[-100, 0])
-p3.setLimits(xMax=0)
 curve3 = p3.plot()
 
 
 def update2():
     global data3, ptr3
-    tmp = np.empty(0)
+    a = time.process_time()
     series = test.get_data().dropna()
+    b = time.process_time()
     data = series.to_numpy()
     idx = series.index.to_numpy()
+    c = time.process_time()
     curve3.setData(idx,data)
     curve3.setPos(-idx[-1:], 0)
+    d = time.process_time()
+    print(f"get_data: {1000*(b-a)}")
 
 # update all plots
 def update():
@@ -40,7 +43,7 @@ def update():
 
 timer = pg.QtCore.QTimer()
 timer.timeout.connect(update)
-timer.start(50)
+timer.start(100)
 
 
 # Start Qt event loop unless running in interactive mode or using pyside.
