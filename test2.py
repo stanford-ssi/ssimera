@@ -6,14 +6,13 @@ Various methods of drawing scrolling plots.
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 import numpy as np
-from serial_manager import SerialManager
+from panda_db import PandaDB
 import sys
-from parse import parse
 
 win = pg.GraphicsLayoutWidget(show=True)
 win.setWindowTitle('pyqtgraph example: Scrolling Plots')
 
-test = SerialManager()
+test = PandaDB()
 
 win.nextRow()
 p3 = win.addPlot()
@@ -24,21 +23,15 @@ p3.setRange(xRange=[-100, 0])
 p3.setLimits(xMax=0)
 curve3 = p3.plot()
 
-data3 = np.empty(0)
-ptr3 = 0
-
 
 def update2():
     global data3, ptr3
     tmp = np.empty(0)
-    test.update()
-    d = test.getLines()
-    tmp = np.append(tmp, len(d))
-    ptr3 += 1
-    data3 = np.append(data3, tmp)
-    curve3.setData(data3)
-    curve3.setPos(-ptr3, 0)
-
+    series = test.get_data().dropna()
+    data = series.to_numpy()
+    idx = series.index.to_numpy()
+    curve3.setData(idx,data)
+    curve3.setPos(-idx[-1:], 0)
 
 # update all plots
 def update():

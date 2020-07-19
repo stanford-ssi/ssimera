@@ -28,7 +28,7 @@ class SerialReader():
     def getLines(self):
         lines = []
         while self.q:
-            lines += self.q.pop()
+            lines.append(tuple(self.q.pop()))
         return lines
 
     def readSerial(self):
@@ -42,8 +42,9 @@ class SerialReader():
                     c = b''  # don't want returns. chuck it
 
                 if c == b'\n':
-                    self.q.appendleft(
-                        (serBuffer, self.port_name, time.time_ns()))
+                    if len(serBuffer) > 1 :
+                        self.q.appendleft(
+                            (serBuffer, self.port_name, time.time_ns()))
                     serBuffer = ""  # empty the buffer
 
                 else:

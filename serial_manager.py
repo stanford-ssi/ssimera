@@ -36,7 +36,6 @@ class SerialManager():
             lines += reader.getLines()
         return lines
 
-
 '''This is a basic self-test script that tests auto-connect and line-reading'''
 if __name__ == "__main__":
     man = SerialManager()
