@@ -14,8 +14,16 @@ win = pg.GraphicsLayoutWidget(show=True)
 win.setWindowTitle('test Plot')
 
 test = TelemHandler()
-
-test.cache.set_streams(["bmi1.a.0","bmi1.a.1","bmi1.a.2"])
+'''
+Status report:
+-BMP1 is shot (but jumps down if you touch it!)
+-BMP2 is negative? but seems right. (its shifted)
+'''
+#test.cache.set_streams(["bmi1.a.0","bmi1.a.1","bmi1.a.2","bmi2.a.0","bmi2.a.1","bmi2.a.2"])
+#test.cache.set_streams(["bmi1.g.0","bmi1.g.1","bmi1.g.2","bmi2.g.0","bmi2.g.1","bmi2.g.2"])
+test.cache.set_streams(["adxl1.a.0","adxl1.a.1","adxl1.a.2","adxl2.a.0","adxl2.a.1","adxl2.a.2"])
+#test.cache.set_streams(["bmp1.p"])
+#test.cache.set_streams(["bmp2.p"])
 
 win.nextRow()
 p3 = win.addPlot()
